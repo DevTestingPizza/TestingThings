@@ -696,7 +696,7 @@ namespace TestingThings
                     isLastPage: true
                 );
                 await GridSelector.LoadPage(0, 7, 0, GridSelector.GridPages.Count());
-                await GridSelector.LoadPage(0, 7, 0, GridSelector.GridPages.Count());
+                //await GridSelector.LoadPage(0, 7, 0, GridSelector.GridPages.Count());
             }
 
             while (LimboActive)

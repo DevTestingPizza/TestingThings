@@ -51,6 +51,7 @@
     <Compile Include="Commands.cs" />
     <Compile Include="Gfx.cs" />
     <Compile Include="GridSelector.cs" />
+    <Compile Include="HudColors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VehicleSelector.cs" />
   </ItemGroup>

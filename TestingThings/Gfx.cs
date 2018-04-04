@@ -767,6 +767,7 @@ namespace TestingThings
                 }
             }
 
+
             DisplayRadar(IsRadarPreferenceSwitchedOn());
             DisplayHud(IsHudPreferenceSwitchedOn());
 

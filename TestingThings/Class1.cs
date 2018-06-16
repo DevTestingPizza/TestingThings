@@ -110,7 +110,8 @@ namespace TestingThings
                     AddFrontendMenuContext((uint)GetHashKey("CORONA_TOURNAMENT"));
                     AddFrontendMenuContext((uint)GetHashKey("AUTOFILL_CONTINUE"));
 
-                    //AddFrontendMenuContext(2010410515);
+                    AddFrontendMenuContext(2010410515);
+                    ObjectDecalToggle((uint)Int64.Parse("-228602367"));
                     //ObjectDecalToggle(1037243298);
                     //AddFrontendMenuContext(696397158);
 
@@ -149,15 +150,15 @@ namespace TestingThings
                     BeginTextCommandScaleformString("STRING");
                     AddTextComponentSubstringPlayerName("Sumo");
                     EndTextCommandScaleformString();
-                    PushScaleformMovieMethodParameterBool(true);
+                    PushScaleformMovieMethodParameterBool(false); // unknown, (confirmed bool), but is 0 (false) in decompiled scripts
                     ///// SET THE MENU DESCRIPTION.
                     BeginTextCommandScaleformString("STRING");
                     AddTextComponentSubstringPlayerName("LOBBY - Waiting for players");
                     EndTextCommandScaleformString();
                     ///// UNKNOWN.
-                    PushScaleformMovieMethodParameterBool(false);
+                    PushScaleformMovieMethodParameterBool(true); // uknown, (confirmed bool), but is 1 (true) in decompiled scripts
                     ///// FINISH.
-                    EndScaleformMovieMethod();
+                    EndScaleformMovieMethod(); // _POP_SCALEFORM_MOVIE_FUNCTION_VOID
 
 
                     /////// HEADER HUD COLOR (OPTIONAL)
@@ -171,23 +172,25 @@ namespace TestingThings
 
                     ////////////////////////////////////////////////////////////////////////////////////////////
                     SetColumnSettingsRow(0, "Select Vehicle", "0", -1, false, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
-                    SetColumnSettingsRow(1, "Ready to Play", "0", -1, false, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                    SetColumnSettingsRow(1, "Ready to Play", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                    SetColumnSettingsRow(2, "Something Else", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                    SetColumnSettingsRow(3, "Quit", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
 
-                    //BeginScaleformMovieMethodN("INIT_SCROLL_BAR");
-                    //PushScaleformMovieMethodParameterBool(true);
-                    //PushScaleformMovieMethodParameterInt(3);
-                    //PushScaleformMovieMethodParameterInt(1);
-                    //PushScaleformMovieMethodParameterInt(1);
-                    //PushScaleformMovieMethodParameterInt(0);
-                    //PushScaleformMovieMethodParameterInt(0);
-                    //PopScaleformMovieFunctionVoid();
+                    BeginScaleformMovieMethodN("INIT_SCROLL_BAR");
+                    PushScaleformMovieMethodParameterBool(true);
+                    PushScaleformMovieMethodParameterInt(3);
+                    PushScaleformMovieMethodParameterInt(1);
+                    PushScaleformMovieMethodParameterInt(1);
+                    PushScaleformMovieMethodParameterInt(0);
+                    PushScaleformMovieMethodParameterInt(0);
+                    PopScaleformMovieFunctionVoid();
 
-                    //BeginScaleformMovieMethodN("SET_SCROLL_BAR");
-                    //PushScaleformMovieMethodParameterInt(2);
-                    //PushScaleformMovieMethodParameterInt(5);
-                    //PushScaleformMovieMethodParameterInt(1);
-                    //PushScaleformMovieMethodParameterString("te");
-                    //PopScaleformMovieFunctionVoid();
+                    BeginScaleformMovieMethodN("SET_SCROLL_BAR");
+                    PushScaleformMovieMethodParameterInt(2);
+                    PushScaleformMovieMethodParameterInt(5);
+                    PushScaleformMovieMethodParameterInt(1);
+                    PushScaleformMovieMethodParameterString("te");
+                    PopScaleformMovieFunctionVoid();
                     //for (var x = 0; x < 5; x++)
                     //{
                     //    ///// COLUMN 0 (LEFT) - ROW 0
@@ -327,6 +330,11 @@ namespace TestingThings
                     {
                         // Add the player.
                         SetColumnPlayerRow(rowindex, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 65, "SUMO", false, "LOADING", HudColors.HudColor.HUD_COLOUR_RED);
+                        SetColumnPlayerRow(rowindex + 1, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 64, "SUMO", true, "KICKED", HudColors.HudColor.HUD_COLOUR_ORANGE);
+                        SetColumnPlayerRow(rowindex + 2, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 63, "SUMO", false, "JOINED", HudColors.HudColor.HUD_COLOUR_GREEN);
+                        SetColumnPlayerRow(rowindex + 3, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 0, "SUMO", false, "SNAILSOME", HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                        SetColumnPlayerRow(rowindex + 4, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 0, "SUMO", false, "", HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                        SetColumnPlayerRow(rowindex + 5, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 66, "SUMO", false, "SPECTATOR", HudColors.HudColor.HUD_COLOUR_GREY);
                         rowindex++;
                         #region old messy code
                         /*
@@ -512,14 +520,34 @@ namespace TestingThings
             // >= 6 no icons, just left/right text.
 
 
-            PushScaleformMovieMethodParameterString("img://candc_importexport/voltic2");  // right icon string or unused? 99% sure it's the latter.
-                                                                                          // real parameter type is also unknown
 
-            PushScaleformMovieMethodParameterBool(false); // row isSelectable
 
-            PushScaleformMovieMethodParameterString(leftText); // left text
-            PushScaleformMovieMethodParameterString(rightText); // right text
+            PushScaleformMovieMethodParameterInt(99); // values in decompiled scripts: 99, purpose unknown
+            // below must be an int, not string according to decompiled scripts, see line above
+            //PushScaleformMovieMethodParameterString("img://candc_importexport/voltic2");  // right icon string or unused? 99% sure it's the latter. real parameter type is also unknown
 
+            PushScaleformMovieMethodParameterBool(false); // row isSelectable? used in decompiled scripts: 0(false)
+
+            //PushScaleformMovieMethodParameterString(leftText); // left text     -   seems to be using _0xE83A3E3557A56640 (button name?!)
+            PushScaleformMovieMethodParameterButtonName(leftText); // left text     -   seems to be using _0xE83A3E3557A56640 (button name?!)
+
+
+
+            PushScaleformMovieMethodParameterString(rightText); // right text 
+                                                                // needs to be an int according to decompiled scripts, but fuck that, because i want my own text
+                                                                ////PushScaleformMovieMethodParameterInt(rightText)
+                                                                //PushScaleformMovieMethodParameterInt(0);
+
+
+
+
+
+            // according to decompiled scaleforms, this is used, but my own testing seems that the commented code below should work instead.
+            BeginTextCommandScaleformString("MP_BET_CASH");
+            AddTextComponentFormattedInteger(1, true);
+            EndTextCommandScaleformString();
+            /*
+            // seems to be a string, but actually an int formatted to become a string (fmmc_launcer.c near line 252.572)
             PushScaleformMovieMethodParameterInt(5); // right icon variation?! (only used when int above (icon type) is 2.
                                                      // 0 = star / mission.
                                                      // 1 = skull / deathmatch / rampage.
@@ -528,8 +556,26 @@ namespace TestingThings
                                                      // 4 = multiple skulls / ?.
                                                      // >= 5 = no icon.
 
-            PushScaleformMovieMethodParameterInt(0); // right icon color (hud color)
-            PushScaleformMovieMethodParameterBool(false); // right icon checkmarked.
+    */
+
+            // from decompiled scripts:
+            PushScaleformMovieMethodParameterString("unknown");
+            PushScaleformMovieMethodParameterInt(65);
+            PushScaleformMovieMethodParameterString("unknown");
+            PushScaleformMovieMethodParameterString("unknown");
+            PushScaleformMovieMethodParameterString("unknown");
+            PushScaleformMovieMethodParameterInt(0);
+            PushScaleformMovieMethodParameterInt(-1); // >0 or -1
+            PushScaleformMovieMethodParameterBool(false);
+
+
+
+
+            // seems BEGIN_TEXT_COMMAND_SCALEFORM_STRING is used in decompiled scripts here, for betting?
+
+            // these two are incorrect?
+            //PushScaleformMovieMethodParameterInt(0); // right icon color (hud color)
+            //PushScaleformMovieMethodParameterBool(false); // right icon checkmarked.
 
             EndScaleformMovieMethod();
         }

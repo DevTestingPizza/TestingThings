@@ -71,18 +71,44 @@ namespace TestingThings
 
             if (frontendActive)
             {
-                if (Game.IsControlJustPressed(0, Control.FrontendAccept))
+                if (Game.IsControlJustPressed(0, Control.FrontendAccept) || Game.IsControlJustPressed(0, Control.PhoneSelect))
                 {
+                    await Delay(100);
                     //var _return1 = BeginScaleformMovieMethodN("GET_COLUMN_SELECTION");
                     //var _return1 = BeginScaleformMovieMethodN("GET_COLUMN_SELECTION");
-                    var result1 = BeginScaleformMovieMethod(GetPauseMenuState(), "GET_COLUMN_SELECTION");
-                    PushScaleformMovieMethodParameterInt(0);
-                    Debug.Write(EndScaleformMovieMethodReturn().ToString() + "\n");
+                    //var result1 = BeginScaleformMovieMethod(GetPauseMenuState(), "GET_COLUMN_SELECTION");
+                    //PushScaleformMovieMethodParameterInt(0);
+                    //Debug.Write(EndScaleformMovieMethodReturn().ToString() + "\n");
                     //var pop = PopScaleformMovieFunction();
                     //Debug.Write(GetScaleformMovieFunctionReturnBool(pop).ToString() + "\n");
                     //Debug.Write(GetScaleformMovieFunctionReturnInt(pop).ToString() + "\n");
                     //Debug.Write(pop.ToString() + "\n");
-                    Debug.Write(result1.ToString() + "\n");
+                    //Debug.Write(result1.ToString() + "\n");
+                    Game.PlaySound("SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET");
+
+
+                    //PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false);
+                    PushScaleformMovieFunctionN("GET_COLUMN_SELECTION");
+                    PushScaleformMovieMethodParameterInt(0);
+                    var res = EndScaleformMovieMethodReturn();
+                    var timer = GetGameTimer();
+                    while (!GetScaleformMovieFunctionReturnBool(res))
+                    {
+                        await Delay(0);
+                        if (GetGameTimer() - timer > 1000)
+                        {
+                            Debug.WriteLine("Took too long");
+                            break;
+                        }
+                    }
+                    var resInt = GetScaleformMovieFunctionReturnInt(res);
+                    Debug.Write($"{resInt}\n");
+                    //else
+                    //{
+                    //    var resInt = GetScaleformMovieFunctionReturnInt(res);
+                    //    Debug.Write($"No Return value: {resInt}\n");
+                    //}
+
 
 
                 }
@@ -90,7 +116,6 @@ namespace TestingThings
             }
             if (Game.IsControlJustPressed(0, Control.FrontendSocialClubSecondary))
             {
-
                 // If the menu is active, deactivate it.
                 if (IsPauseMenuActive())
                 {
@@ -171,26 +196,26 @@ namespace TestingThings
                     await Delay(500);
 
                     ////////////////////////////////////////////////////////////////////////////////////////////
-                    SetColumnSettingsRow(0, "Select Vehicle", "0", -1, false, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
-                    SetColumnSettingsRow(1, "Ready to Play", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
-                    SetColumnSettingsRow(2, "Something Else", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
-                    SetColumnSettingsRow(3, "Quit", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                    SetColumnSettingsRow(0, "Select a vehicle", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                    SetColumnSettingsRow(1, "Vote for a map", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                    SetColumnSettingsRow(2, "Quit to server list", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                    SetColumnSettingsRow(3, "Exit FiveM", "0", -1, true, HudColors.HudColor.HUD_COLOUR_ADVERSARY);
 
-                    BeginScaleformMovieMethodN("INIT_SCROLL_BAR");
-                    PushScaleformMovieMethodParameterBool(true);
-                    PushScaleformMovieMethodParameterInt(3);
-                    PushScaleformMovieMethodParameterInt(1);
-                    PushScaleformMovieMethodParameterInt(1);
-                    PushScaleformMovieMethodParameterInt(0);
-                    PushScaleformMovieMethodParameterInt(0);
-                    PopScaleformMovieFunctionVoid();
+                    //BeginScaleformMovieMethodN("INIT_SCROLL_BAR");
+                    //PushScaleformMovieMethodParameterBool(true);
+                    //PushScaleformMovieMethodParameterInt(3);
+                    //PushScaleformMovieMethodParameterInt(1);
+                    //PushScaleformMovieMethodParameterInt(1);
+                    //PushScaleformMovieMethodParameterInt(0);
+                    //PushScaleformMovieMethodParameterInt(0);
+                    //PopScaleformMovieFunctionVoid();
 
-                    BeginScaleformMovieMethodN("SET_SCROLL_BAR");
-                    PushScaleformMovieMethodParameterInt(2);
-                    PushScaleformMovieMethodParameterInt(5);
-                    PushScaleformMovieMethodParameterInt(1);
-                    PushScaleformMovieMethodParameterString("te");
-                    PopScaleformMovieFunctionVoid();
+                    //BeginScaleformMovieMethodN("SET_SCROLL_BAR");
+                    //PushScaleformMovieMethodParameterInt(2);
+                    //PushScaleformMovieMethodParameterInt(5);
+                    //PushScaleformMovieMethodParameterInt(1);
+                    //PushScaleformMovieMethodParameterString("te");
+                    //PopScaleformMovieFunctionVoid();
                     //for (var x = 0; x < 5; x++)
                     //{
                     //    ///// COLUMN 0 (LEFT) - ROW 0
@@ -329,12 +354,12 @@ namespace TestingThings
                     foreach (Player p in new PlayerList())
                     {
                         // Add the player.
-                        SetColumnPlayerRow(rowindex, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 65, "SUMO", false, "LOADING", HudColors.HudColor.HUD_COLOUR_RED);
-                        SetColumnPlayerRow(rowindex + 1, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 64, "SUMO", true, "KICKED", HudColors.HudColor.HUD_COLOUR_ORANGE);
-                        SetColumnPlayerRow(rowindex + 2, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 63, "SUMO", false, "JOINED", HudColors.HudColor.HUD_COLOUR_GREEN);
-                        SetColumnPlayerRow(rowindex + 3, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 0, "SUMO", false, "SNAILSOME", HudColors.HudColor.HUD_COLOUR_ADVERSARY);
-                        SetColumnPlayerRow(rowindex + 4, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 0, "SUMO", false, "", HudColors.HudColor.HUD_COLOUR_ADVERSARY);
-                        SetColumnPlayerRow(rowindex + 5, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 66, "SUMO", false, "SPECTATOR", HudColors.HudColor.HUD_COLOUR_GREY);
+                        SetColumnPlayerRow(rowindex + 0, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 115, "SUMO", false, "LOADING", HudColors.HudColor.HUD_COLOUR_RED);
+                        SetColumnPlayerRow(rowindex + 1, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 116, "SUMO", true, "KICKED", HudColors.HudColor.HUD_COLOUR_ORANGE);
+                        SetColumnPlayerRow(rowindex + 2, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 117, "SUMO", false, "JOINED", HudColors.HudColor.HUD_COLOUR_GREEN);
+                        SetColumnPlayerRow(rowindex + 3, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 118, "SUMO", false, "SNAILSOME", HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                        SetColumnPlayerRow(rowindex + 4, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 119, "SUMO", false, "", HudColors.HudColor.HUD_COLOUR_ADVERSARY);
+                        SetColumnPlayerRow(rowindex + 5, p.Name, 420, (HudColors.HudColor)p.Handle + 28, false, 120, "SUMO", false, "SPECTATOR", HudColors.HudColor.HUD_COLOUR_GREY);
                         rowindex++;
                         #region old messy code
                         /*
